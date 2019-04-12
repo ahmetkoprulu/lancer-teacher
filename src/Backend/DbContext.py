@@ -17,8 +17,7 @@ class InstructorDbContext:
         connection = self.engine.connect()
         result = connection.execute("SELECT * FROM instructor WHERE email = '{email}' AND password_hash = '{password_hash}'".format(email=email, password_hash=password_hash))
         connection.close()
-        print result
-        return json.dumps([dict(r) for r in result])
+        return json.dumps([dict(r) for r in result][0])
 
 
 class StudentDbContext:
@@ -31,11 +30,11 @@ class StudentDbContext:
             connection.execute("INSERT INTO student (name, surname, email, password_hash) VALUES ({values})"
                                .format(values=','.join(values)))
 
-    def SelectInstructorByCredentials(self, email, password_hash):
+    def SelectStudentByCredentials(self, email, password_hash):
         connection = self.engine.connect()
         result = connection.execute("SELECT * FROM student WHERE email = {email} AND password_hash = {password_hash}".format(email=email, password_hash=password_hash))
         connection.close()
-        return result
+        return json.dumps([dict(r) for r in result][0])
 
 
 class ProjectDbContext:
