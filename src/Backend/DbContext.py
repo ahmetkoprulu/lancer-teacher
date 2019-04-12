@@ -52,7 +52,7 @@ class ProjectDbContext:
         result = connection.execute("SELECT * FROM project WHERE s_id = '{s_id}'".format(s_id=s_id))
         connection.close()
         return json.dumps([dict(r) for r in result][0])
-    
+
 
 class ProposalDbContext:
     def __init__(self, engine):

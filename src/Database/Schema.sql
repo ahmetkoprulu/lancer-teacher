@@ -56,6 +56,23 @@ TABLESPACE pg_default;
 
 ALTER TABLE public.student
     OWNER to postgres;
+
+-- Table: public.tag
+
+-- DROP TABLE public.tag;
+
+CREATE TABLE public.tag
+(
+    name character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT tag_pkey PRIMARY KEY (name)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.tag
+    OWNER to postgres;
 	
 -- Table: public.project
 
@@ -70,11 +87,16 @@ CREATE TABLE public.project
     min_price numeric(7,0),
     max_price numeric(7,0) NOT NULL,
     s_id integer NOT NULL,
+    t_id character varying(50) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT project_pkey PRIMARY KEY (id),
     CONSTRAINT project_s_id_fkey FOREIGN KEY (s_id)
         REFERENCES public.student (id) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT project_t_id_fkey FOREIGN KEY (t_id)
+        REFERENCES public.tag (name) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
 )
 WITH (
     OIDS = FALSE
