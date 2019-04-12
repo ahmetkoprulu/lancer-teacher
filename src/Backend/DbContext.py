@@ -44,7 +44,7 @@ class ProjectDbContext:
     def CreateProject(self, values):
         connection = self.engine.connect()
         with connection.begin() as trans:
-            connection.execute("INSERT INTO project (title, description, deadline, max_price, min_price, s_id) VALUES ({values})"
+            connection.execute("INSERT INTO project (title, description, deadline, max_price, min_price, s_id, t_id) VALUES ({values})"
                                .format(values=','.join(values)))
 
     def SelectProjectsByStudentId(self, s_id):
@@ -90,6 +90,17 @@ class RateDbContext:
         connection = self.engine.connect()
         with connection.begin() as trans:
             connection.execute("INSERT INTO rate (score, comment, date, c_id, s_id) VALUES ({values})"
+                               .format(values=','.join(values)))
+
+
+class TagDbContext:
+    def __init__(self, engine):
+        self.engine = engine
+
+    def CreateRate(self, values):
+        connection = self.engine.connect()
+        with connection.begin() as trans:
+            connection.execute("INSERT INTO tag (name) VALUES ({values})"
                                .format(values=','.join(values)))
 
 
