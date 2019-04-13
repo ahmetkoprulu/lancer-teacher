@@ -6,12 +6,12 @@ import { Project } from '../models/project';
 @Injectable({
   providedIn: 'root'
 })
-export class CityService {
+export class ProjectService {
 
     constructor(private httpClient: HttpClient) { }
     path = 'http://localhost:7000/';
 
-    getCities(): Observable<Project[]>{
+    getProjects(): Observable<Project[]> {
         return this.httpClient.get<Project[]>(this.path + 'projects');
     }
 }
