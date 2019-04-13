@@ -1,3 +1,5 @@
+import datetime
+import decimal
 import json
 
 from sqlalchemy import create_engine
@@ -46,12 +48,17 @@ class ProjectDbContext:
         with connection.begin() as trans:
             connection.execute("INSERT INTO project (title, description, deadline, max_price, min_price, s_id, t_id) VALUES ({values})"
                                .format(values=','.join(values)))
+    def SelectAllProjects(self):
+        connection = self.engine.connect()
+        result = connection.execute("SELECT * FROM project")
+        connection.close()
+        return json.dumps([dict(r) for r in result], cls=CustomJsonEncoder)
 
     def SelectProjectsByStudentId(self, s_id):
         connection = self.engine.connect()
         result = connection.execute("SELECT * FROM project WHERE s_id = '{s_id}'".format(s_id=s_id))
         connection.close()
-        return json.dumps([dict(r) for r in result][0])
+        return json.dumps([dict(r) for r in result], cls=CustomJsonEncoder)
 
 
 class ProposalDbContext:
@@ -129,3 +136,10 @@ class DbContext:
                                .format(table=table, columns=', '.join(columns), values=','.join(values)))
 
 
+class CustomJsonEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, decimal.Decimal):
+            return float(obj)
+        if isinstance(obj, datetime.date):
+            return obj.__str__()
+        return super(CustomJsonEncoder, self).default(obj)

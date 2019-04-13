@@ -29,6 +29,14 @@ def StudentRegister():
     db.Students.CreateStudent((content['name'], content['surname'], content['email'], content['password_hash']))
     return content, 200
 
+@app.route('/projects')
+def ProjectGet():
+    return db.Projects.SelectAllProjects(), 200
+
+@app.route('/projects/<int:s_id>')
+def ProjectGetByStudentId(s_id):
+    return db.Projects.SelectProjectsByStudentId(s_id), 200
+
 @app.route('/proposals', methods=['POST'])
 def ProposalCreate():
     content = request.get_json(force=True)
