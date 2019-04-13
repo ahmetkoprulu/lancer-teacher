@@ -8,10 +8,14 @@ import { Project } from '../models/project';
 })
 export class ProjectService {
 
-    constructor(private httpClient: HttpClient) { }
-    path = 'http://localhost:7000/';
+  constructor(private httpClient: HttpClient) { }
+  path = 'http://localhost:7000/';
 
-    getProjects(): Observable<Project[]> {
-        return this.httpClient.get<Project[]>(this.path + 'projects');
-    }
+  getProjects(): Observable<Project[]> {
+    return this.httpClient.get<Project[]>(this.path + 'projects');
+  }
+
+  getProjectById(pId): Observable<Project> {
+    return this.httpClient.get<Project>(this.path + 'projects/' + pId);
+  }
 }

@@ -54,9 +54,9 @@ class ProjectDbContext:
         connection.close()
         return json.dumps([dict(r) for r in result], cls=CustomJsonEncoder)
 
-    def SelectProjectsByStudentId(self, s_id):
+    def SelectProjectsByProjectId(self, p_id):
         connection = self.engine.connect()
-        result = connection.execute("SELECT * FROM project WHERE s_id = '{s_id}'".format(s_id=s_id))
+        result = connection.execute("SELECT * FROM proposal NATURAL JOIN instructor WHERE p_id = '{p_id}'".format(p_id=p_id))
         connection.close()
         return json.dumps([dict(r) for r in result], cls=CustomJsonEncoder)
 

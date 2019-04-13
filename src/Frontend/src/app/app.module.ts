@@ -10,6 +10,7 @@ import { NavComponent } from './nav/nav.component';
 import { ProjectComponent } from './project/project.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
+import { ProjectDetailComponent } from './project-detail/project-detail.component';
 
 @NgModule({
    declarations: [
@@ -17,7 +18,8 @@ import { LoginComponent } from './login/login.component';
       NavComponent,
       ProjectComponent,
       RegisterComponent,
-      LoginComponent
+      LoginComponent,
+      ProjectDetailComponent
    ],
    imports: [
       BrowserModule,
