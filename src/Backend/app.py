@@ -10,20 +10,17 @@ db = DbContext()
 def hello_world():
     return jsonify('sa'), 200
 
-
 @app.route('/instructors', methods=['POST'])
 def InstructorRegister():
     content = request.get_json(force=True)
     db.Instructors.CreateInstructor((content['name'], content['surname'], content['email'], content['password_hash']))
     return content, 200
 
-
 @app.route('/instructors/login', methods=['POST'])
 def InstructorLogin():
     content = request.get_json(force=True)
     instructor = db.Instructors.SelectInstructorByCredentials(content['email'], content['password_hash'])
     return instructor, 200
-
 
 @app.route('/students', methods=['POST'])
 def StudentRegister():
@@ -44,6 +41,10 @@ def ProposalCreate():
     content = request.get_json(force=True)
     db.Proposals.CreateProposal((content['name'], content['surname'], content['email'], content['password_hash']))
     return content, 200
+
+@app.route('/projects/<int:p_id>')
+def ProposalGetbyProjectId(p_id):
+    return db.Proposals.SelectProposalsByProjectId(p_id)
 
 @app.route('/contracts', methods=['POST'])
 def ContractCreate():
