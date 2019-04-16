@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../services/project.service';
 import { ProposalService } from '../services/proposal.service';
 import { Project } from '../models/project';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { Proposal } from '../models/proposal';
 
 @Component({
   selector: 'app-project-detail',
@@ -11,15 +13,38 @@ import { Project } from '../models/project';
   providers: [ProjectService, ProposalService]
 })
 export class ProjectDetailComponent implements OnInit {
-
-  constructor(private activatedRoute: ActivatedRoute, private projectService: ProjectService, private proposalService: ProposalService) { }
   project: Project;
+  proposalForm: FormGroup;
+  proposal: Proposal;
+  // tslint:disable-next-line:max-line-length
+  constructor(private activatedRoute: ActivatedRoute, private projectService: ProjectService, private proposalService: ProposalService, private formBuilder: FormBuilder) { }
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
-      this.getProjectId(params.get('pId'));
+      // tslint:disable-next-line:no-string-literal
+      this.getProjectById(params['pId']);
+    });
+
+    this.createProposalForm();
+  }
+
+  createProposalForm() {
+    this.proposalForm = this.formBuilder.group({
+        comment: ['', Validators.required],
+        price: ['', Validators.required]
     });
   }
-  getProjectId(pId) {
+
+  postProposal() {
+    if (this.proposalForm.valid) {
+      this.proposal = Object.assign({}, this.proposalForm.value);
+      // TODO: GET INSTRUCTOR FROM TOKEN
+      this.proposal.iId = 1;
+      this.proposal.pId = this.project.id;
+      this.proposalService.creteProposal(this.proposal, this.project.id);
+    }
+  }
+
+  getProjectById(pId) {
     this.projectService.getProjectById(pId).subscribe(data => {
       this.project = data;
     });

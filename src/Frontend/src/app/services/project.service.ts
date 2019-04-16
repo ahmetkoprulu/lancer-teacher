@@ -18,4 +18,8 @@ export class ProjectService {
   getProjectById(pId): Observable<Project> {
     return this.httpClient.get<Project>(this.path + 'projects/' + pId);
   }
+
+  createProject(project: Project) {
+    this.httpClient.post(this.path + 'projects', project).subscribe();
+  }
 }

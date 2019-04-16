@@ -14,4 +14,8 @@ export class ProposalService {
   getProposalByProjectId(pId): Observable<Proposal[]> {
     return this.httpClient.get<Proposal[]>(this.path + 'proposals/' + pId);
   }
+
+  creteProposal(proposal, pId= 0) {
+    this.httpClient.post(this.path + 'proposals', proposal);
+  }
 }
