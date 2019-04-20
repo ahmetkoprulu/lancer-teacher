@@ -11,30 +11,30 @@
   </div>
   <div class="row">
     <div class="col-md-8 offset-2 bg-white py-4 px-5 shadow">
-      <form>
+      <form [formGroup]="projectForm" (ngSubmit)="postProject">
         <div class="form-group">
           <label for="inputAddress" class="h5 font-weight-bold">Projeniz için bir ad seçin</label>
-          <input type="text" class="form-control" id="inputAddress" placeholder="">
+          <input type="text" class="form-control" id="title" formControlName="title" placeholder="">
         </div>
         <div class="form-group">
           <label for="inputAddress2" class="h5 font-weight-bold">Bize projenizi anlatın</label>
           <p>Kendiniz ya da işiniz hakkında biraz bilgi vererek başlayın ve ne yaptırmaya gereksinim duyduğunuzun genel açıklamasını da dahil edin.</p>
-          <textarea class="form-control"></textarea>
+          <textarea class="form-control" id="description" formControlName="description" ></textarea>
         </div>
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="inputEmail4" class="h6 font-weight-bold">Maximum Price</label>
-            <input type="number" class="form-control" id="inputEmail4" placeholder="">
+            <input type="number" class="form-control" id="maxPrice" formControlName="maxPrice"  placeholder="TL">
           </div>
           <div class="form-group col-md-6">
             <label for="inputPassword4" class="h6 font-weight-bold">Minimum Price</label>
-            <input type="number" class="form-control" id="inputPassword4" placeholder="">
+            <input type="number" class="form-control" id="minPrice" formControlName="minPrice"  placeholder="TL">
           </div>
         </div>
         <div class="form-group">
           <label for="inputState"  class="h6 font-weight-bold">Projenizin Bitiş Tarihi Nedir?</label>
           <div class="input-group w-50">
-            <input class="form-control w-50" placeholder="Year-Month-Day" name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
+            <input class="form-control w-50" placeholder="Year-Month-Day" id="deadline" formControlName="deadline"  name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
             <div class="input-group-append">
               <button class="btn btn-outline-dark" (click)="d.toggle()" type="button"><i class="far fa-calendar-alt"></i></button>
             </div>
@@ -48,8 +48,9 @@
             <option>...</option>
           </select>
         </div>
-        <button type="submit" class="btn btn-outline-primary">Sign in</button>
+        <button type="submit" class="btn btn-outline-primary" [disabled]="!projectForm.valid">Sign in</button>
       </form>
+      <pre>FormData: {{ projectForm.value | json }}</pre>
     </div>
   </div>
 </div>

@@ -9,11 +9,11 @@ class InstructorDbContext:
     def __init__(self, engine):
         self.engine = engine
 
-    def CreateInstructor(self, values):
+    def CreateInstructor(self, name, surname, email, password_hash):
         connection = self.engine.connect()
         with connection.begin() as trans:
-            connection.execute('INSERT INTO instructor (name, surname, email, password_hash) VALUES ({values})'
-                               .format(values=','.join(values)))
+            connection.execute("INSERT INTO instructor(name, surname, email, password_hash) VALUES('{name}', '{surname}', '{email}', '{password_hash}')"
+                               .format(name=name, surname=surname, email=email, password_hash=password_hash))
 
     def SelectInstructorByCredentials(self, email, password_hash):
         connection = self.engine.connect()
@@ -26,11 +26,11 @@ class StudentDbContext:
     def __init__(self, engine):
         self.engine = engine
 
-    def CreateStudent(self, values):
+    def CreateStudent(self, name, surname, email, password_hash):
         connection = self.engine.connect()
         with connection.begin() as trans:
-            connection.execute("INSERT INTO student (name, surname, email, password_hash) VALUES ({values})"
-                               .format(values=','.join(values)))
+            connection.execute("INSERT INTO instructor(name, surname, email, password_hash) VALUES('{name}', '{surname}', '{email}', '{password_hash}')"
+                                .format(name=name, surname=surname, email=email, password_hash=password_hash))
 
     def SelectStudentByCredentials(self, email, password_hash):
         connection = self.engine.connect()
@@ -43,23 +43,30 @@ class ProjectDbContext:
     def __init__(self, engine):
         self.engine = engine
 
-    def CreateProject(self, values):
+    def CreateProject(self, title, description, deadline, max_price, min_price, s_id, t_id):
         connection = self.engine.connect()
         with connection.begin() as trans:
-            connection.execute("INSERT INTO project (title, description, deadline, max_price, min_price, s_id, t_id) VALUES ({values})"
-                               .format(values=','.join(values)))
+            connection.execute("INSERT INTO project (title, description, deadline, max_price, min_price, s_id, t_id) VALUES ('{title}', '{description}', '{deadline}', '{max_price}', '{min_price}', '{s_id}', '{t_id}')"
+                               .format(title=title, description=description, deadline=deadline, max_price=max_price, min_price=min_price, s_id=s_id, t_id=t_id))
+
     def SelectAllProjects(self):
         connection = self.engine.connect()
         result = connection.execute("SELECT * FROM project")
         connection.close()
         return json.dumps([dict(r) for r in result], cls=CustomJsonEncoder)
 
-    def SelectProjectsByProjectId(self, p_id):
+    def SelectProposalsByProjectId(self, p_id):
         connection = self.engine.connect()
         result = connection.execute("SELECT * FROM proposal NATURAL JOIN instructor WHERE p_id = '{p_id}'".format(p_id=p_id))
         connection.close()
+        print json.dumps([dict(r) for r in result], cls=CustomJsonEncoder)
         return json.dumps([dict(r) for r in result], cls=CustomJsonEncoder)
 
+    def SelectProjectByProjectId(self, p_id):
+        connection = self.engine.connect()
+        result = connection.execute("SELECT * FROM project WHERE id = '{p_id}'".format(p_id=p_id))
+        connection.close()
+        return json.dumps([dict(r) for r in result][0], cls=CustomJsonEncoder)
 
 class ProposalDbContext:
     def __init__(self, engine):

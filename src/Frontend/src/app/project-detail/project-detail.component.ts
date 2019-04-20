@@ -38,8 +38,8 @@ export class ProjectDetailComponent implements OnInit {
     if (this.proposalForm.valid) {
       this.proposal = Object.assign({}, this.proposalForm.value);
       // TODO: GET INSTRUCTOR FROM TOKEN
-      this.proposal.iId = 1;
-      this.proposal.pId = this.project.id;
+      this.proposal.i_id = 1;
+      this.proposal.p_id = this.project.id;
       this.proposalService.creteProposal(this.proposal, this.project.id);
     }
   }

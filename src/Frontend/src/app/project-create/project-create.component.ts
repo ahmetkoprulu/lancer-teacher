@@ -27,7 +27,7 @@ export class ProjectCreateComponent implements OnInit {
     private router: Router
     ) { }
   ngOnInit() {
-
+    this.createProjectForm();
   }
 
   createProjectForm() {
@@ -38,7 +38,7 @@ export class ProjectCreateComponent implements OnInit {
       minPrice: ['', Validators.required],
       deadline: ['', Validators.required],
     });
-  } 
+  }
 
   postProject() {
     if (this.projectForm.valid) {

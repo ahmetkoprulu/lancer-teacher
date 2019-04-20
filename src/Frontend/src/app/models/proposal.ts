@@ -4,9 +4,11 @@ import { Instructor } from './instructor';
 export class Proposal {
     id: number;
     comment: string;
-    pId: number;
+    // tslint:disable-next-line:variable-name
+    p_id: number;
 
     project: Project;
-    iId: number;
+    // tslint:disable-next-line:variable-name
+    i_id: number;
     instructor: Instructor;
 }

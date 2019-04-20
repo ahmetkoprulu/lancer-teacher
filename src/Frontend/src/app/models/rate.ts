@@ -5,7 +5,9 @@ export class Rate {
     score: number;
     date: string;
 
-    cId: number;
-    sId: number;
+    // tslint:disable-next-line:variable-name
+    c_id: number;
+    // tslint:disable-next-line:variable-name
+    s_id: number;
     student: Student;
 }

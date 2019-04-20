@@ -7,11 +7,11 @@
       </div>
       <div class="col-md-12">
         <div class="row">
-          <div class="col-md-10">
-            <h2 class="font-weight-bold">ENGR 101 Mini Project 1</h2>
+          <div class="col-md-9">
+            <h2 class="font-weight-bold">{{ project.title }}</h2>
           </div>
-          <div class="col-md-2 text-right">
-            <h2 class="font-weight-bold"> 150.0 TL</h2>
+          <div class="col-md-3 text-right">
+            <h2 class="font-weight-bold"> {{ project.min_price}} - {{ project.max_price }} TL</h2>
           </div>
         </div>
       </div>
@@ -23,8 +23,9 @@
     <div class="col-md-8">
       <div class="row shadow">
         <div class="col-md-12 bg-white pt-5 pb-3">
-          <p>Description: Programming 1 dersinin 1. projesini yaptırmak için birisini arıyorum lütfen beni arayın. Ödevin dökömantasyonu https://www.drive.google.com/.... adresindedir.</p>
-          <p class="">Tag: Computer Engineering</p>
+          <p>Description: {{ project.description }}</p>
+          <p class="">Tag: {{ project.t_id }}</p>
+          <p class="">Due Date: {{ project.deadline}}
           <p class="">Attached File: MP1.zip</p>
           <h5 class="font-weight-bold">About Student</h5>
           <p>Something about student</p>
@@ -77,6 +78,27 @@
                 </td>
                 <td class="col-md-1 text-center align-middle"><span class="h3">70 TL</span></td>
               </tr>
+              <tr class="" *ngFor="let proposal of proposals">
+                <td class="">
+                  <div class="row">
+                    <div class="col-md-2">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" width="80" class="bg-info">
+                    </div>
+                    <div class="col-md-10 pl-4">
+                      <h5>Ahmet Ensar Köprülü</h5>Merhabalar açıklamanızı dikkatlice okudum ve size en iyi hizmeti vereceğime inanıyorum.
+                    </div>
+                  </div>
+                </td>
+                <td class="align-middle text-center align-center">
+                  <span>
+                    <strong class="bg-warning text-white px-1 rounded">4.8</strong>&nbsp;<i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="far fa-star text-warning"></i><br>
+                    29 değerlendirme <br>
+                    %97 tamamlama
+                  </span>
+                </td>
+                <td class="col-md-1 text-center align-middle"><span class="h3">70 TL</span></td>
+              </tr>
+
             </tbody>
           </table>
         </div>

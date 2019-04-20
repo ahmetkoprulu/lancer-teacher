@@ -6,12 +6,16 @@ export class Project {
   title: string;
   description: string;
   deadline: string;
-  minPrice: number;
-  maxPrice: number;
+  // tslint:disable-next-line:variable-name
+  min_price: number;
+  // tslint:disable-next-line:variable-name
+  max_price: number;
 
-  sId: number;
+  // tslint:disable-next-line:variable-name
+  s_id: number;
   student: Student;
-  tId: string;
+  // tslint:disable-next-line:variable-name
+  t_id: string;
 
   proposals: Proposal[];
 }

@@ -5,7 +5,8 @@ export class Instructor {
     id: number;
     name: string;
     surname: string;
-    passwordHash: string;
+    // tslint:disable-next-line:variable-name
+    password_hash: string;
     email: string;
 
     projects: Project[];
