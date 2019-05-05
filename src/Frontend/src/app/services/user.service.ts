@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AlertifyService } from './alertify.service';
 import { Router } from '@angular/router';
-import { JwtHelper, tokenNotExpired } from 'angular2-jwt';
 import { Observable } from 'rxjs';
+import { JwtHelper, tokenNotExpired } from 'angular2-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,12 @@ export class UserService {
     private httpClient: HttpClient,
     private alertifyService: AlertifyService,
     private router: Router
-  ) { this.isAuthenticated = this.loggedIn();  this.user = JSON.parse(this.jwtHelper.decodeToken(localStorage.getItem('token')).identity); }
+  ) {
+    this.isAuthenticated = this.loggedIn();
+    if (this.isAuthenticated) {
+      this.user = JSON.parse(this.jwtHelper.decodeToken(localStorage.getItem('token')).identity);
+    }
+  }
 
   registerStudent(student) {
 
@@ -79,6 +84,7 @@ export class UserService {
 
   loggedIn() {
     console.log(tokenNotExpired(this.userToken));
+    if (!this.userToken) { return false; }
     return tokenNotExpired(this.userToken);
   }
 
