@@ -3,7 +3,7 @@ import { Student } from './student';
 export class Rate {
     id: number;
     score: number;
-    date: string;
+    comment: string;
 
     // tslint:disable-next-line:variable-name
     c_id: number;

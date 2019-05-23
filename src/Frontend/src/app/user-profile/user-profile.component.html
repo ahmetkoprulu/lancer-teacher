@@ -1,0 +1,306 @@
+<app-nav></app-nav>
+<div class="container">
+  <div class="row mt-4 mb-4 bg-white shadow">
+    <div class="col-md-2">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" class="mt-2 mb-2"
+        width="160">
+    </div>
+    <div class="col-md-9">
+      <h2 class="font-weight-bold mt-4">{{userService.user.name}} {{userService.user.surname}}</h2>
+      <h5 class="text-muted">{{userService.user.email}}</h5>
+    </div>
+    <div class="col-md-1">
+      <button class="btn btn-outline-dark mt-2" (click)="selectProfile()" data-toggle="modal" data-target="#profile">
+        <i class="fas fa-cog"></i></button>
+    </div>
+  </div>
+  <div class="row mt-4 mb-4 bg-white shadow">
+    <div class="w-100 bg-white py-4 px-3 shadow">
+      <h4>Contracts</h4>
+      <hr>
+      <p *ngIf="!pasiveProjects">You have not any contract</p>
+      <div class="" *ngFor="let project of pasiveProjects">
+        <div class="col-md-12 row">
+          <div class="col-md-1">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" width="80">
+          </div>
+          <div class="col-md-8">
+            <span class="card-title font-weight-bold h5 link" routerLink="/projects/{{project.id}}">{{project.title}}
+            </span>
+            <label class="text-muted ml-2">{{project.deadline}}</label>
+            <p class="text-muted">This project is contracted with <strong>{{project.name}} {{project.surname}}</strong>
+              in <strong>{{project.date}}</strong> for <strong>{{project.price}}</strong> TL</p>
+            <div *ngIf="project.comment">
+              <span>
+                <strong class="bg-warning text-white px-1 rounded">{{project.score}}.0</strong>&nbsp;
+                <ngb-rating [rate]="project.score" class="text-warning h3" [readonly]="true"></ngb-rating>&nbsp;&nbsp;
+                <i *ngIf="userService.isStudent()" (click)="selectRate(project)" data-toggle="modal" data-target="#contract" class="fas fa-edit"></i>
+              </span>
+              <p>{{ project.comment }}</p>
+            </div>
+            <p *ngIf="!project.comment">The student not rated the work yet. Click <a class='text-info' (click)="selectRate(project)" data-toggle="modal" data-target="#contract">here</a> to rate now.</p>
+            <p>{{ project.t_id }}</p>
+          </div>
+        </div>
+        <hr>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!userService.isStudent()" class="row mt-4 mb-4 bg-white shadow">
+    <div class="w-100 bg-white py-4 px-3 shadow">
+      <h4>Proposals</h4>
+      <p *ngIf="!activeProposals">You have not any contract</p>
+      <div class="" *ngFor="let proposal of activeProposals">
+        <hr>
+        <div class="col-md-12 row">
+          <div class="col-md-11">
+            <span class="card-title font-weight-bold h5 link"
+              routerLink="/projects/{{proposal.id}}">{{proposal.title}}</span>
+            <p>{{ proposal.comment }}</p>
+            <p>{{ proposal.price}} TL</p>
+          </div>
+          <div class="col-md-1">
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#proposal"
+                (click)="this.selectProposal(proposal)"><i class="fas fa-edit"></i></button>
+              <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#proposalDelete"
+                (click)="this.selectedProposal = proposal"><i class="fas fa-trash-alt"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="userService.isStudent()" class="row mt-4 mb-4 bg-white shadow">
+    <div class="w-100 bg-white py-4 px-3 shadow">
+      <h4>Projects</h4>
+      <p *ngIf="activeProjects">You have not any Project</p>
+      <div class="" *ngFor="let project of activeProjects">
+        <hr>
+        <div class="col-md-12 row">
+          <div class="col-md-11">
+            <span class="card-title font-weight-bold h5 link"
+              routerLink="/projects/{{project.id}}">{{project.title}}</span> <label
+              class="text-muted ml-2">{{project.deadline}}</label>
+            <p class="card-text">
+              {{(project.description.length>200)? (project.description | slice:0:200)+'..':(project.description)}}</p>
+            <p>{{project.t_id}}</p>
+            <label>TL {{project.min_price}} - {{project.max_price}}</label>
+          </div>
+          <div class="col-md-1">
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#project"
+                (click)="selectProject(project)"><i class="fas fa-edit"></i></button>
+              <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#projectDelete"
+                (click)="selectedProject = project"><i class="fas fa-trash-alt"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="profile" tabindex="-1" role="dialog" aria-labelledby="profileLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="profileLabel">Edit User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="profileForm">
+          <div class="form-group">
+            <label for="name" class="col-form-label">Name:</label>
+            <input type="text" class="form-control" id="name" formControlName="name">
+          </div>
+          <div class="form-group">
+            <label for="surname" class="col-form-label">Surname:</label>
+            <input type="text" class="form-control" id="surname" formControlName="surname">
+          </div>
+          <div class="form-group">
+            <label for="email" class="col-form-label">Email:</label>
+            <input type="text" class="form-control" id="email" formControlName="email">
+          </div>
+          <div class="form-group">
+            <label for="password_hash" class="col-form-label">Password:</label>
+            <input type="password" class="form-control" id="password_hash" formControlName="password_hash">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" data-dismiss="modal" (click)="postProfile()">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" *ngIf="selectedProposal" id="proposal" tabindex="-1" role="dialog"
+  aria-labelledby="proposalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="proposalLabel">Update Proposal</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="proposalForm">
+          <div class="form-group">
+            <label for="comment" class="col-form-label">Comment:</label>
+            <textarea class="form-control" id="comment" formControlName="comment"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="price" class="col-form-label">Price:</label>
+            <input type="number" class="form-control" id="price" formControlName="price">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-info" data-dismiss="modal" (click)="postProposal()">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="contract" tabindex="-1" role="dialog"
+  aria-labelledby="contractLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="contractLabel">Update Contract</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="rateForm">
+          <div class="form-group">
+            <label for="score" class="col-form-label">Score:</label>&nbsp;&nbsp;
+            <ngb-rating [rate]="0" class="text-warning h3" id="score" formControlName="score"></ngb-rating>
+
+          </div>
+          <div class="form-group">
+            <label for="comment" class="col-form-label">Comment:</label>
+            <textarea class="form-control" id="comment" formControlName="comment"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-info" data-dismiss="modal" (click)="postRate()">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" *ngIf="selectedProject" id="project" tabindex="-1" role="dialog" aria-labelledby="projectLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="projectLabel">Edit Project</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="projectForm">
+          <div class="form-group">
+            <label for="inputAddress" class="h6 font-weight-bold">Title:</label>
+            <input type="text" class="form-control" id="title" formControlName="title">
+          </div>
+          <div class="form-group">
+            <label for="inputAddress2" class="h6 font-weight-bold">Description:</label>
+            <textarea class="form-control" id="description" formControlName="description"></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputEmail4" class="h6 font-weight-bold">Maximum Price:</label>
+              <input type="number" class="form-control" id="max_price" formControlName="max_price" placeholder="TL">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputPassword4" class="h6 font-weight-bold">Minimum Price:</label>
+              <input type="number" class="form-control" id="min_price" formControlName="min_price" placeholder="TL">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputState" class="h6 font-weight-bold">Deadline:</label>
+            <div class="input-group w-50">
+              <input class="form-control w-50" placeholder="Year-Month-Day" id="deadline" formControlName="deadline"
+                name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="btn btn-outline-dark" (click)="d.toggle()" type="button"><i
+                    class="far fa-calendar-alt"></i></button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputState" class="h6 font-weight-bold">Tag:</label>
+            <select id="inputState" class="form-control w-50" id="t_id" formControlName="t_id">
+              <option>Architecture</option>
+              <option>Computer Engineering</option>
+              <option>Electrical Engineering</option>
+              <option>Literature</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-info" data-dismiss="modal" (click)="postProject()">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="projectDelete" tabindex="-1" role="dialog" aria-labelledby="projectDeleteLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="projectDeleteLabel">Delete Project</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure want to delete selected project ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteProject()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="proposalDelete" tabindex="-1" role="dialog" aria-labelledby="proposalDeleteLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="proposalDeleteLabel">Delete Proposal</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure want to delete selected proposal ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteProposal()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

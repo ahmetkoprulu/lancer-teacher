@@ -13,9 +13,18 @@ export class Project {
 
   // tslint:disable-next-line:variable-name
   s_id: number;
-  student: Student;
+  name: string;
+  surname: string;
   // tslint:disable-next-line:variable-name
   t_id: string;
 
-  proposals: Proposal[];
+  // tslint:disable-next-line:variable-name
+  p_id: number;
+  price: number;
+
+  // tslint:disable-next-line:variable-name
+  c_id: number;
+  date: string;
+  score: number;
+  comment: string;
 }

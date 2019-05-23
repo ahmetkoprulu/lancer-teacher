@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Instructor } from '../models/instructor';
+import { User } from '../models/instructor';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../services/user.service';
@@ -13,7 +13,7 @@ import { Student } from '../models/student';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  instructor: Instructor;
+  instructor: User;
   student: Student;
   loginForm: FormGroup;
   credentials = { email: null, passwordHash: null, role: null };

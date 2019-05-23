@@ -15,6 +15,9 @@ import { LoginComponent } from './login/login.component';
 import { ProjectDetailComponent } from './project-detail/project-detail.component';
 import { ProjectCreateComponent } from './project-create/project-create.component';
 import { AlertifyService } from './services/alertify.service';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { FooterComponent } from './footer/footer.component';
+import { InstructorProfileComponent } from './instructor-profile/instructor-profile.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,10 @@ import { AlertifyService } from './services/alertify.service';
     RegisterComponent,
     LoginComponent,
     ProjectDetailComponent,
-    ProjectCreateComponent
+    ProjectCreateComponent,
+    UserProfileComponent,
+    FooterComponent,
+    InstructorProfileComponent
   ],
   imports: [
     BrowserModule,

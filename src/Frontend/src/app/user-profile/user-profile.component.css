@@ -1,0 +1,9 @@
+.sa {
+    display: none;
+}
+.wrapper:hover div {
+    background-color: gray;
+}
+.wrapper:hover .sa {
+    display: block;
+}

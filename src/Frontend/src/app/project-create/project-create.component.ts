@@ -6,6 +6,7 @@ import { Tag } from '../models/tag';
 import { TagService } from '../services/tag.service';
 import { AlertifyService } from '../services/alertify.service';
 import { Router } from '@angular/router';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-project-create',
@@ -22,6 +23,7 @@ export class ProjectCreateComponent implements OnInit {
   constructor(
     private projectService: ProjectService,
     private tagService: TagService,
+    private userService: UserService,
     private formBuilder: FormBuilder,
     private alertifyService: AlertifyService,
     private router: Router
@@ -34,15 +36,20 @@ export class ProjectCreateComponent implements OnInit {
     this.projectForm = this.formBuilder.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
-      maxPrice: ['', Validators.required],
-      minPrice: ['', Validators.required],
+      max_price: ['', Validators.required],
+      min_price: ['', Validators.required],
       deadline: ['', Validators.required],
+      t_id: ['', Validators.required]
     });
   }
 
   postProject() {
     if (this.projectForm.valid) {
       this.project = Object.assign({}, this.projectForm.value);
+      // tslint:disable-next-line:no-string-literal
+      this.project.deadline = this.model['year'] + '-' + this.model['month'] + '-' + this.model['day'];
+      this.project.s_id = this.userService.getCurrentUserId();
+      console.log(this.project);
       this.projectService.createProject(this.project);
       this.alertifyService.success('Project created successfully.');
       this.router.navigateByUrl('/projects');

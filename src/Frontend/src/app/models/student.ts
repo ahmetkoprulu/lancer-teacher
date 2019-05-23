@@ -8,6 +8,7 @@ export class Student {
     // tslint:disable-next-line:variable-name
     password_hash: string;
     email: string;
+    role: string;
 
     projects: Project[];
     contracts: Contract[];

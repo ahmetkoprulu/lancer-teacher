@@ -1,0 +1,45 @@
+<app-nav></app-nav>
+<div class="container">
+  <div class="row mt-4 mb-4 bg-white shadow">
+    <div class="col-md-2">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" class="mt-2 mb-2"
+        width="160">
+    </div>
+    <div class="col-md-9">
+      <h2 class="font-weight-bold mt-4">{{instructor.name}} {{instructor.surname}}</h2>
+      <h5 class="text-muted">{{instructor.email}}</h5>
+    </div>
+  </div>
+  <div class="row mt-4 mb-4 bg-white shadow">
+    <div class="w-100 bg-white py-4 px-3 shadow">
+      <h4>Contracts</h4>
+      <p *ngIf="!pasiveProjects">You have not any contract</p>
+      <div class="" *ngFor="let project of pasiveProjects">
+        <hr>
+        <div class="col-md-12 row">
+          <div class="col-md-1">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" width="80">
+          </div>
+          <div class="col-md-8">
+            <span class="card-title font-weight-bold h5 link" routerLink="/projects/{{project.id}}">{{project.title}}
+            </span>
+            <label class="text-muted ml-2">{{project.deadline}}</label>
+            <p class="text-muted">This project is contracted with <strong>{{project.name}} {{project.surname}}</strong>
+              in <strong>{{project.date}}</strong> for <strong>{{project.price}}</strong> TL</p>
+            <div *ngIf="project.comment">
+              <span>
+                <strong class="bg-warning text-white px-1 rounded">{{project.score}}.0</strong>&nbsp;
+                <ngb-rating [rate]="project.score" class="text-warning h3" [max]="5" [readonly]="true"></ngb-rating>&nbsp;&nbsp;
+              </span>
+              <p>{{ project.comment }}</p>
+            </div>
+            <p *ngIf="!project.comment">The work is not rated yet.
+            <p>{{ project.t_id }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

@@ -1,4 +1,5 @@
 <div class="container pt-4">
+  <a class="nav-link" routerLink="/projects"><- Back</a>
   <div class="row">
     <div class="col-md-8 offset-2 py-2 bg-primary text-white">
       <h3 class="font-weight-bold">Bize ne yaptırmaya gereksinim duyduğunuzu anlatın</h3>
@@ -11,7 +12,7 @@
   </div>
   <div class="row">
     <div class="col-md-8 offset-2 bg-white py-4 px-5 shadow">
-      <form [formGroup]="projectForm" (ngSubmit)="postProject">
+      <form [formGroup]="projectForm" (ngSubmit)="postProject()">
         <div class="form-group">
           <label for="inputAddress" class="h5 font-weight-bold">Projeniz için bir ad seçin</label>
           <input type="text" class="form-control" id="title" formControlName="title" placeholder="">
@@ -24,11 +25,11 @@
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="inputEmail4" class="h6 font-weight-bold">Maximum Price</label>
-            <input type="number" class="form-control" id="maxPrice" formControlName="maxPrice"  placeholder="TL">
+            <input type="number" class="form-control" id="max_price" formControlName="max_price"  placeholder="TL">
           </div>
           <div class="form-group col-md-6">
             <label for="inputPassword4" class="h6 font-weight-bold">Minimum Price</label>
-            <input type="number" class="form-control" id="minPrice" formControlName="minPrice"  placeholder="TL">
+            <input type="number" class="form-control" id="min_price" formControlName="min_price"  placeholder="TL">
           </div>
         </div>
         <div class="form-group">
@@ -39,18 +40,18 @@
               <button class="btn btn-outline-dark" (click)="d.toggle()" type="button"><i class="far fa-calendar-alt"></i></button>
             </div>
           </div>
-          <pre>Model: {{ model | json }}</pre>
         </div>
         <div class="form-group">
           <label for="inputState"  class="h6 font-weight-bold">Hangi beceriler gereklidir?</label>
-          <select id="inputState" class="form-control w-50">
-            <option selected>Choose...</option>
-            <option>...</option>
+          <select id="inputState" class="form-control w-50" id="t_id" formControlName="t_id">
+            <option>Architecture</option>
+            <option>Computer Engineering</option>
+            <option>Electrical Engineering</option>
+            <option>Literature</option>
           </select>
         </div>
         <button type="submit" class="btn btn-outline-primary" [disabled]="!projectForm.valid">Sign in</button>
       </form>
-      <pre>FormData: {{ projectForm.value | json }}</pre>
     </div>
   </div>
 </div>

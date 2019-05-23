@@ -17,4 +17,7 @@ export class AlertifyService {
   warning(message) {
     alertify.warning(message);
   }
+  info(message) {
+    alertify.info(message);
+  }
 }

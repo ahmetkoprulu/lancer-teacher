@@ -25,26 +25,25 @@
         <div class="col-md-12 bg-white pt-5 pb-3">
           <p>Description: {{ project.description }}</p>
           <p class="">Tag: {{ project.t_id }}</p>
-          <p class="">Due Date: {{ project.deadline}}
-          <p class="">Attached File: MP1.zip</p>
-          <h5 class="font-weight-bold">About Student</h5>
-          <p>Something about student</p>
-          <div>
-            <hr>
-            <form [formGroup]="proposalForm" (ngSubmit)="postProposal">
-              <div class="form-row align-items-center">
-                <div class="col-9">
-                  <textarea class="form-control" id="comment" formControlName="comment" placeholder="Your Message"></textarea>
+          <p class="">Due Date: {{ project.deadline}}</p>
+            <div *ngIf="userService.isInstructor() && !isProjectOffered">
+              <hr>
+              <form [formGroup]="proposalForm" (ngSubmit)="postProposal()">
+                <div class="form-row align-items-center">
+                  <div class="col-8">
+                    <input type='text' class="form-control form-control-lg" id="comment" formControlName="comment"
+                      placeholder="Your Message">
+                  </div>
+                  <div class="col-2">
+                    <input type="number" class="form=control form-control-lg w-100" id="price" formControlName="price"
+                      placeholder="Price">
+                  </div>
+                  <div class="col-1">
+                    <button type="submit" class="btn-lg btn-primary" [disabled]="!proposalForm.valid">Offer</button>
+                  </div>
                 </div>
-                <div class="col-2">
-                  <input type="number" class="form=control form-control-lg w-100" id="price" formControlName="price" placeholder="Price">
-                </div>
-                <div class="col-1">
-                  <button type="submit" class="btn btn-primary" [disabled]="!proposalForm.valid">Offer</button>
-                </div>
-              </div>
-            </form>
-          </div>
+              </form>
+            </div>
         </div>
       </div>
       <div class="row">
@@ -58,45 +57,31 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="">
-                <td class="">
-                  <div class="row">
-                    <div class="col-md-2">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" width="80" class="bg-info">
-                    </div>
-                    <div class="col-md-10 pl-4">
-                      <h5>Ahmet Ensar Köprülü</h5>Merhabalar açıklamanızı dikkatlice okudum ve size en iyi hizmeti vereceğime inanıyorum.
-                    </div>
-                  </div>
-                </td>
-                <td class="align-middle text-center align-center">
-                  <span>
-                    <strong class="bg-warning text-white px-1 rounded">4.8</strong>&nbsp;<i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="far fa-star text-warning"></i><br>
-                    29 değerlendirme <br>
-                    %97 tamamlama
-                  </span>
-                </td>
-                <td class="col-md-1 text-center align-middle"><span class="h3">70 TL</span></td>
-              </tr>
+
+
               <tr class="" *ngFor="let proposal of proposals">
                 <td class="">
                   <div class="row">
                     <div class="col-md-2">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" width="80" class="bg-info">
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" width="80"
+                        class="bg-info">
                     </div>
                     <div class="col-md-10 pl-4">
-                      <h5>Ahmet Ensar Köprülü</h5>Merhabalar açıklamanızı dikkatlice okudum ve size en iyi hizmeti vereceğime inanıyorum.
+                      <h5><a routerLink='/profile/{{proposal.i_id}}' class='text-info'>{{proposal.name}} {{proposal.surname}}</a>&nbsp;&nbsp;<span class='text-muted h6'>{{ proposal.date }}</span></h5>
+                      {{ proposal.comment }}
                     </div>
                   </div>
                 </td>
-                <td class="align-middle text-center align-center">
+                <td class="align-middle text-center align-center" data-toggle="modal" data-target="#confirm" (click)="this.selectedProposalId = proposal.id;">
                   <span>
-                    <strong class="bg-warning text-white px-1 rounded">4.8</strong>&nbsp;<i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="far fa-star text-warning"></i><br>
-                    29 değerlendirme <br>
-                    %97 tamamlama
+                    <strong *ngIf="proposal.avg" class="bg-warning text-white px-1 rounded">{{proposal.avg}}</strong>
+                    <strong *ngIf="!proposal.avg" class="bg-warning text-white px-1 rounded">0.0</strong>&nbsp;
+                    <ngb-rating [rate]="proposal.avg" class="text-warning h4" [max]="5" [readonly]="true"></ngb-rating><br>
+                    <span *ngIf="proposal.avg">{{proposal.count}} değerlendirme</span>
+                    <span *ngIf="!proposal.avg">0 değerlendirme</span>
                   </span>
                 </td>
-                <td class="col-md-1 text-center align-middle"><span class="h3">70 TL</span></td>
+                <td class="col-md-1 text-center align-middle"><span class="h3">{{proposal.price}} TL</span></td>
               </tr>
 
             </tbody>
@@ -110,14 +95,34 @@
           <h5 class="font-weight-bold">Similiar Jobs</h5>
           <hr>
           <ul class="list-group pl-3">
-            <li class="py-1 h6">Cras justo odio</li>
-            <li class="py-1 h6">Dapibus ac facilisis in</li>
-            <li class="py-1 h6">Morbi leo risus</li>
-            <li class="py-1 h6">Porta ac consectetur ac</li>
-            <li class="py-1 h6">Vestibulum at eros</li>
+            <li class="py-1 h6">Engr 101 Exam</li>
+            <li class="py-1 h6">Network Project 1</li>
+            <li class="py-1 h6">Need Help For Database</li>
+            <li class="py-1 h6">How To Scrap For ENGR 102</li>
           </ul>
         </div>
       </div>
     </div>
   </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="confirm" tabindex="-1" role="dialog" aria-labelledby="confirmLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure to contract with selected proposal ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="confirmContract()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

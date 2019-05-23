@@ -1,38 +1,35 @@
 <!--The content below is only a placeholder and can be replaced.-->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary py-3 px-5 shadow">
-        <a class="navbar-brand" href="#">Freelancer</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div id="navbarNavDropdown" class="navbar-collapse collapse">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="projects" routerLinkActive="active">How It Works</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="projects" routerLinkActive="active">Browse Jobs</a>
-                </li>
-
-            </ul>
-            <ul class="navbar-nav">
-                <li *ngIf="userService.isAuthenticated" class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ userService.user['name']}}
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                    </div>
-                </li>
-                <li *ngIf="!userService.isAuthenticated" class="nav-item">
-                    <a class="nav-link" routerLink="/login">Login</a>
-                </li>
-                <li *ngIf="!userService.isAuthenticated" class="nav-item">
-                    <a class="nav-link" routerLink="register" >Register</a>
-                </li>
-                <li *ngIf="userService.isAuthenticated" class="nav-item">
-                    <a class="nav-link" (click)="userService.logOut()" routerLinkActive="active">Logout</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary py-3 px-5 shadow">
+    <a class="navbar-brand" href="#">Sehir Inn</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div id="navbarNavDropdown" class="navbar-collapse collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" routerLink="projects" routerLinkActive="active">How It Works</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/projects" routerLinkActive="active">Browse Jobs</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+            <li *ngIf="userService.isStudent()" class="nav-item">
+                <a class="nav-link" routerLink="/create-project">Create Project</a>
+            </li>
+            <li *ngIf="userService.isAuthenticated" class="nav-item">
+                <a class="nav-link" routerLink="/profile" routerLinkActive="active">{{ userService.user['name']}}</a>
+            </li>
+            <li *ngIf="!userService.isAuthenticated" class="nav-item">
+                <a class="nav-link" routerLink="/login">Login</a>
+            </li>
+            <li *ngIf="!userService.isAuthenticated" class="nav-item">
+                <a class="nav-link" routerLink="/register">Register</a>
+            </li>
+            <li *ngIf="userService.isAuthenticated" class="nav-item">
+                <a class="nav-link" (click)="userService.logOut()" routerLinkActive="active">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>

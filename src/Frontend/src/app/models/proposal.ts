@@ -1,14 +1,19 @@
 import { Project } from './project';
-import { Instructor } from './instructor';
+import { User } from './instructor';
 
 export class Proposal {
     id: number;
     comment: string;
+    price: number;
     // tslint:disable-next-line:variable-name
     p_id: number;
-
-    project: Project;
     // tslint:disable-next-line:variable-name
     i_id: number;
-    instructor: Instructor;
+    name: string;
+    surname: string;
+
+    title: string;
+    date: string;
+    count: number;
+    avg: number;
 }

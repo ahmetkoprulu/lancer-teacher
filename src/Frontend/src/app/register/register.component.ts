@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Instructor } from '../models/instructor';
+import { User } from '../models/instructor';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Proposal } from '../models/proposal';
 import { ActivatedRoute } from '@angular/router';
@@ -34,7 +34,7 @@ export class RegisterComponent implements OnInit {
         name: ['', Validators.required],
         surname: ['', Validators.required],
         email: ['', Validators.required],
-        passwordHash: ['', Validators.required],
+        password_hash: ['', Validators.required],
         confirmPassword: ['', Validators.required],
         role: ['', Validators.required]
     }, {
